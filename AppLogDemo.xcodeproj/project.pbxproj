@@ -14,6 +14,7 @@
 		D6701EF32B3BA2E6007F32F7 /* AppLogDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6701EF22B3BA2E6007F32F7 /* AppLogDemoTests.swift */; };
 		D6701EFD2B3BA2E6007F32F7 /* AppLogDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6701EFC2B3BA2E6007F32F7 /* AppLogDemoUITests.swift */; };
 		D6701EFF2B3BA2E6007F32F7 /* AppLogDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6701EFE2B3BA2E6007F32F7 /* AppLogDemoUITestsLaunchTests.swift */; };
+		D6701F0D2B3BB071007F32F7 /* FluidGradient in Frameworks */ = {isa = PBXBuildFile; productRef = D6701F0C2B3BB071007F32F7 /* FluidGradient */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6701F0D2B3BB071007F32F7 /* FluidGradient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +145,9 @@
 			dependencies = (
 			);
 			name = AppLogDemo;
+			packageProductDependencies = (
+				D6701F0C2B3BB071007F32F7 /* FluidGradient */,
+			);
 			productName = AppLogDemo;
 			productReference = D6701EDE2B3BA2E2007F32F7 /* AppLogDemo.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +220,9 @@
 				Base,
 			);
 			mainGroup = D6701ED52B3BA2E2007F32F7;
+			packageReferences = (
+				D6701F0B2B3BB071007F32F7 /* XCRemoteSwiftPackageReference "FluidGradient" */,
+			);
 			productRefGroup = D6701EDF2B3BA2E2007F32F7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -422,6 +430,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AppLogDemo/Preview Content\"";
+				DEVELOPMENT_TEAM = 8JKVMYCRTJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -451,6 +460,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AppLogDemo/Preview Content\"";
+				DEVELOPMENT_TEAM = 8JKVMYCRTJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -584,6 +594,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D6701F0B2B3BB071007F32F7 /* XCRemoteSwiftPackageReference "FluidGradient" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Cindori/FluidGradient";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D6701F0C2B3BB071007F32F7 /* FluidGradient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D6701F0B2B3BB071007F32F7 /* XCRemoteSwiftPackageReference "FluidGradient" */;
+			productName = FluidGradient;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D6701ED62B3BA2E2007F32F7 /* Project object */;
 }
