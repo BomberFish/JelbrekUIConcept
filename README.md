@@ -1,3 +1,3 @@
-# AppLogDemo
+# JelbrekUIConcept
 
-Elegant Log Demo in SwiftUI.
+UI for potential jailbreaks.
