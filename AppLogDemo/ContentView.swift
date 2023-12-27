@@ -5,7 +5,17 @@
 import FluidGradient
 import SwiftUI
 
+func sysctlbynameButBetter(_ str: String) -> String! {
+    var size = 0
+    sysctlbyname(str, nil, &size, nil, 0)
+    var machine = [CChar](repeating: 0,  count: size)
+    sysctlbyname(str, &machine, &size, nil, 0)
+    if machine.isEmpty { return nil }
+    return String(cString: machine)
+}
+
 struct ContentView: View {
+    @Binding var triggerRespring: Bool
     @State var logItems: [String] = []
     @State var progress: Double = 0.0
     @State var isRunning = false
@@ -19,6 +29,8 @@ struct ContentView: View {
     @AppStorage("verbose") var verboseBoot = false
     @AppStorage("unthreded") var untether = true
     @AppStorage("hide") var hide = false
+    @State var reinstall = false
+    @State var resetfs = false
     var body: some View {
         GeometryReader { geo in
             NavigationView {
@@ -52,6 +64,40 @@ struct ContentView: View {
                             .buttonStyle(.bordered)
                             .tint(color)
                             .controlSize(.large)
+                            
+                            ZStack {
+                                Rectangle()
+                                    .fill(.clear)
+                                    .blur(radius: 16)
+                                    .background(Color(UIColor.secondarySystemGroupedBackground).opacity(0.3))
+                                VStack {
+                                    Toggle("Reinstall strap", isOn: $reinstall)
+                                        .onChange(of: reinstall) { _ in
+                                            if reinstall {
+                                                withAnimation(fancyAnimation) {
+                                                    resetfs = false
+                                                }
+                                            }
+                                        }
+                                    Divider()
+                                    Toggle("Remove jailbreak", isOn: $resetfs)
+                                        .onChange(of: resetfs) { _ in
+                                            if resetfs {
+                                                withAnimation(fancyAnimation) {
+                                                    reinstall = false
+                                                }
+                                            }
+                                        }
+                                }
+                                .padding()
+                            }
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                            .frame(width: geo.size.width / 1.5, height: geo.size.height / 4.5)
+                            
+                            Text("This is a fake jailbreak.\nBy BomberFish. Released under the MIT Licence.")
+                                .multilineTextAlignment(.center)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
                         }
                         ZStack {
                             Rectangle()
@@ -100,8 +146,9 @@ struct ContentView: View {
                                     .font(.caption)
                             }
                             if finished {
-                                Button("Exit app") {
-                                    exit(0)
+                                Button("Respring") {
+//                                    exit(0)
+                                    triggerRespring = true
                                 }
                                 .buttonStyle(.bordered)
                                 .tint(color)
@@ -136,6 +183,23 @@ struct ContentView: View {
             if let red = Double(rgbArray[0]), let green = Double(rgbArray[1]), let blue = Double(rgbArray[2]), let alpha = Double(rgbArray[3]) { color = Color(.sRGB, red: red, green: green, blue: blue, opacity: alpha) }
         }
     }
+    func funnyThing(_ exampleArg: Bool, progress: @escaping ((Double, String)) -> ()) {
+        let steps = [
+            "[*] Getting Kernel R/W",
+            "[*] Bypassing PPL",
+            "[*] Bypassing KTRR",
+            reinstall ? "[*] Reinstalling bootstrap" : "[*] Bootstrapping",
+            untether ? "[*] Installing untether" : "",
+            "[√] Done."
+        ]
+        progress((0.0, "[i] \(UIDevice.current.model), iOS \(UIDevice.current.systemVersion)"))
+        for i in 0..<steps.count {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 2.0) {
+                progress((Double(i)/Double(steps.count - 1), steps[i]))
+            }
+        }
+    }
+
 }
 
 func updateCardColorInAppStorage(color: Color) -> String {
@@ -192,22 +256,6 @@ struct SettingsView: View {
     }
 }
 
-func funnyThing(_ exampleArg: Bool, progress: @escaping ((Double, String)) -> ()) {
-    for i in 0 ... 100 {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2 * Double(i)) {
-            if i % 5 == 1, i % 3 == 1 {
-                progress((Double(i)/100.0, "[\(i)] rizzbuzz"))
-            } else if i % 5 == 0 {
-                progress((Double(i)/100.0, "[\(i)] rizz"))
-            } else if i % 3 == 0 {
-                progress((Double(i)/100.0, "[\(i)] buzz"))
-            } else {
-                progress((Double(i)/100.0, "[*] \(i)"))
-            }
-        }
-    }
-}
-
 #Preview {
-    ContentView()
+    ContentView(triggerRespring: .constant(false))
 }
