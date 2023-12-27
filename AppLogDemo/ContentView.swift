@@ -17,7 +17,9 @@ struct ContentView: View {
             let data = handle.availableData
             let str = String(data: data, encoding: .ascii) ?? "<Non-ascii data of size\(data.count)>\n"
             DispatchQueue.main.async {
-                logItems.append(str)
+                withAnimation(fancyAnimation) {
+                    logItems.append(str)
+                }
             }
         }
     }
