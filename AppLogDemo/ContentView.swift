@@ -6,7 +6,21 @@ import FluidGradient
 import SwiftUI
 
 struct ContentView: View {
+    var pipe = Pipe()
     @State var logItems: [String] = []
+    public func openConsolePipe () {
+        setvbuf(stdout, nil, _IONBF, 0)
+        dup2(pipe.fileHandleForWriting.fileDescriptor,
+             STDOUT_FILENO)
+        // listening on the readabilityHandler
+        pipe.fileHandleForReading.readabilityHandler = { handle in
+            let data = handle.availableData
+            let str = String(data: data, encoding: .ascii) ?? "<Non-ascii data of size\(data.count)>\n"
+            DispatchQueue.main.async {
+                logItems.append(str)
+            }
+        }
+    }
     @State var progress: Double = 0.0
     @State var isRunning = false
     @State var finished = false
@@ -14,6 +28,7 @@ struct ContentView: View {
     @State var color: Color = .accentColor
     @AppStorage("accent") var accentColor: String = updateCardColorInAppStorage(color: .accentColor)
     @AppStorage("swag") var swag = true
+    @AppStorage("showStdout") var showStdout = true
     let fancyAnimation: Animation = .snappy(duration: 0.3, extraBounce: 0.2) // smoooooth operaaatooor
     var body: some View {
         NavigationView {
@@ -34,6 +49,11 @@ struct ContentView: View {
                             UIImpactFeedbackGenerator(style: .soft).impactOccurred(intensity: 200)
                             withAnimation(fancyAnimation) {
                                 isRunning = true
+                            }
+                            if showStdout {
+                                withAnimation(fancyAnimation) {
+                                    print("Hello from stdout!")
+                                }
                             }
                             funnyThing(true) { prog, log in
                                 withAnimation(fancyAnimation) {
@@ -84,6 +104,12 @@ struct ContentView: View {
                                     finished = true
                                 }
                             }
+                        }
+                    }
+                    
+                    .onAppear {
+                        if showStdout {
+                            openConsolePipe()
                         }
                     }
                     Group {
@@ -145,6 +171,7 @@ struct SettingsView: View {
     @AppStorage("accent") var accentColor: String = updateCardColorInAppStorage(color: .accentColor)
     @Binding var col: Color
     @AppStorage("swag") var swag = true
+    @AppStorage("showStdout") var showStdout = true
     var body: some View {
         NavigationView {
             List {
@@ -161,6 +188,13 @@ struct SettingsView: View {
                     Text("Swag Mode")
                     Spacer()
                     Toggle("Swag Mode", isOn: $swag)
+                        .tint(col)
+                        .labelsHidden()
+                }
+                HStack {
+                    Text("Show stdout")
+                    Spacer()
+                    Toggle("Show stdout", isOn: $showStdout)
                         .tint(col)
                         .labelsHidden()
                 }
