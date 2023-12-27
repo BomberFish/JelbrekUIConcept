@@ -164,6 +164,7 @@ struct ContentView: View {
                                 Toggle("Enable untether", isOn: $untether)
                                 Toggle("Hide environment", isOn: $hide)
                             }
+                            .disabled(isRunning || finished)
                             Section(content: {
                                 HStack {
                                     Text("Accent Color")
