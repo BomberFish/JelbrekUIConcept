@@ -11,8 +11,9 @@ struct AppLogDemoApp: App {
         WindowGroup {
             ContentView(triggerRespring: $triggerRespring)
                 .preferredColorScheme(triggerRespring ? .dark : .none)
+                .background(Color(triggerRespring ? .black : UIColor.systemBackground))
                 .scaleEffect(triggerRespring ? 0.95 : 1)
-                .brightness(triggerRespring ? -1 : 0)
+                .brightness(triggerRespring ? -2 : 0)
                 .statusBarHidden(triggerRespring)
                 .onChange(of: triggerRespring) { _ in
                     if triggerRespring == true {

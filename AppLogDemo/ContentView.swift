@@ -27,15 +27,15 @@ struct ContentView: View {
         GeometryReader { geo in
             NavigationView {
                 ZStack {
-                    Color(UIColor.systemBackground)
+                    Color(triggerRespring ? .black : UIColor.systemBackground)
                         .ignoresSafeArea(.all)
-                    if swag {
+                    if swag && !triggerRespring {
                         FluidGradient(blobs: [color, color, color, color, color, color, color, color, color], speed: 0.4, blur: 0.7) // swag alert #420blazeit
                             .ignoresSafeArea(.all)
                     }
                     Rectangle()
                         .fill(.clear)
-                        .background(Color(UIColor.systemBackground).opacity(0.8))
+                        .background(triggerRespring ? .black : Color(UIColor.systemBackground).opacity(0.8))
                         .ignoresSafeArea(.all)
                     VStack {
                         Spacer()
@@ -122,7 +122,7 @@ struct ContentView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                         .onChange(of: progress) { p in
                             if p == 1.0 {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                                     withAnimation(fancyAnimation) {
                                         isRunning = false
                                         finished = true
@@ -140,7 +140,9 @@ struct ContentView: View {
                             if finished {
                                 Button("Respring") {
 //                                    exit(0)
-                                    triggerRespring = true
+                                    withAnimation(.easeInOut(duration: 0.1)) {
+                                        triggerRespring = true
+                                    }
                                 }
                                 .buttonStyle(.bordered)
                                 .tint(color)
