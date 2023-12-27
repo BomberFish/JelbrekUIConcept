@@ -15,111 +15,119 @@ struct ContentView: View {
     @AppStorage("accent") var accentColor: String = updateCardColorInAppStorage(color: .accentColor)
     @AppStorage("swag") var swag = true
     let fancyAnimation: Animation = .snappy(duration: 0.3, extraBounce: 0.2) // smoooooth operaaatooor
+    @AppStorage("cr") var customReboot = true
+    @AppStorage("verbose") var verboseBoot = false
+    @AppStorage("unthreded") var untether = true
+    @AppStorage("hide") var hide = false
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color(UIColor.systemBackground)
-                    .ignoresSafeArea(.all)
-                if swag {
-                    FluidGradient(blobs: [color, color, color, color, color, color, color, color, color], speed: 0.4, blur: 0.7) // swag alert #420blazeit
+        GeometryReader { geo in
+            NavigationView {
+                ZStack {
+                    Color(UIColor.systemBackground)
                         .ignoresSafeArea(.all)
-                }
-                Rectangle()
-                    .fill(.clear)
-                    .background(Color(UIColor.systemBackground).opacity(0.8))
-                    .ignoresSafeArea(.all)
-                VStack {
-                    if !isRunning && !finished {
-                        Button("Do the thing") {
-                            UIImpactFeedbackGenerator(style: .soft).impactOccurred(intensity: 200)
-                            withAnimation(fancyAnimation) {
-                                isRunning = true
-                            }
-                            funnyThing(true) { prog, log in
-                                withAnimation(fancyAnimation) {
-                                    progress = prog
-                                    logItems.append(log)
-                                }
-                            }
-                        }
-                        .disabled(isRunning || finished)
-                        .buttonStyle(.bordered)
-                        .tint(color)
-                        .controlSize(.large)
+                    if swag {
+                        FluidGradient(blobs: [color, color, color, color, color, color, color, color, color], speed: 0.4, blur: 0.7) // swag alert #420blazeit
+                            .ignoresSafeArea(.all)
                     }
-                    ZStack {
-                        Rectangle()
-                            .fill(.clear)
-                            .blur(radius: 16)
-                            .background(Color(UIColor.secondarySystemGroupedBackground).opacity(0.3))
-                        ScrollView {
-                            LazyVStack(alignment: .leading) {
-                                ScrollViewReader { value in
-                                    ForEach(logItems, id: \.self) { log in // caveat: no two log messages can be the same. can be solved by custom struct with a uuid, but i cba to do that rn
-                                        Text(log)
-                                            .id(log)
-                                            .multilineTextAlignment(.leading)
-                                            .frame(width: 350, alignment: .leading)
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                    .multilineTextAlignment(.leading)
-                                    .onChange(of: logItems.count) { new in
-                                        value.scrollTo(logItems[new - 1])
+                    Rectangle()
+                        .fill(.clear)
+                        .background(Color(UIColor.systemBackground).opacity(0.8))
+                        .ignoresSafeArea(.all)
+                    VStack {
+                        Spacer()
+                        if !isRunning && !finished {
+                            Button("Jelbrek") {
+                                UIImpactFeedbackGenerator(style: .soft).impactOccurred(intensity: 200)
+                                withAnimation(fancyAnimation) {
+                                    isRunning = true
+                                }
+                                funnyThing(true) { prog, log in
+                                    withAnimation(fancyAnimation) {
+                                        progress = prog
+                                        logItems.append(log)
                                     }
                                 }
                             }
-                            .padding(.bottom, 15)
-                            .padding()
-                        }
-                    }
-                    .frame(height: logItems.isEmpty ? 0 : 400, alignment: .leading)
-//                    .background(.ultraThinMaterial)
-
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .onChange(of: progress) { p in
-                        if p == 1.0 {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                                withAnimation(fancyAnimation) {
-                                    isRunning = false
-                                    finished = true
-                                }
-                            }
-                        }
-                    }
-                    Group {
-                        if isRunning {
-                            ProgressView(value: progress)
-                                .tint(progress == 1.0 ? .green : color)
-                            Text(progress == 1.0 ? "Complete" : "\(Int(progress * 100))%")
-                                .font(.caption)
-                        }
-                        if finished {
-                            Button("Exit app") {
-                                exit(0)
-                            }
+                            .disabled(isRunning || finished)
                             .buttonStyle(.bordered)
                             .tint(color)
                             .controlSize(.large)
                         }
+                        ZStack {
+                            Rectangle()
+                                .fill(.clear)
+                                .blur(radius: 16)
+                                .background(Color(UIColor.secondarySystemGroupedBackground).opacity(0.3))
+                            ScrollView {
+                                LazyVStack(alignment: .leading) {
+                                    ScrollViewReader { value in
+                                        ForEach(logItems, id: \.self) { log in // caveat: no two log messages can be the same. can be solved by custom struct with a uuid, but i cba to do that rn
+                                            Text(log)
+                                                .id(log)
+                                                .multilineTextAlignment(.leading)
+                                                .frame(width: geo.size.width - 50, alignment: .leading)
+                                        }
+                                        .font(.system(.body, design: .monospaced))
+                                        .multilineTextAlignment(.leading)
+                                        .onChange(of: logItems.count) { new in
+                                            value.scrollTo(logItems[new - 1])
+                                        }
+                                    }
+                                }
+                                .padding(.bottom, 15)
+                                .padding()
+                            }
+                        }
+                        .frame(height: logItems.isEmpty ? 0 : geo.size.height / 1.5, alignment: .leading)
+                        //                    .background(.ultraThinMaterial)
+                        
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .onChange(of: progress) { p in
+                            if p == 1.0 {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                    withAnimation(fancyAnimation) {
+                                        isRunning = false
+                                        finished = true
+                                    }
+                                }
+                            }
+                        }
+                        Group {
+                            if isRunning {
+                                ProgressView(value: progress)
+                                    .tint(progress == 1.0 ? .green : color)
+                                Text(progress == 1.0 ? "Complete" : "\(Int(progress * 100))%")
+                                    .font(.caption)
+                            }
+                            if finished {
+                                Button("Exit app") {
+                                    exit(0)
+                                }
+                                .buttonStyle(.bordered)
+                                .tint(color)
+                                .controlSize(.large)
+                            }
+                        }
+                        .padding(.top, 10)
+                        Spacer()
                     }
-                    .padding(.top, 10)
+                    .padding()
                 }
-                .padding()
-            }
-            .navigationTitle("AppLogDemo")
-            .sheet(isPresented: $settings) {
-                SettingsView(col: $color)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { settings = true }) {
-                        Image(systemName: "gear")
+                .navigationTitle("Jelbrek")
+                .sheet(isPresented: $settings) {
+                    SettingsView(col: $color)
+                }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: { settings = true }) {
+                            Image(systemName: "gear")
+                        }
                     }
                 }
             }
+            .tint(color)
+            .navigationViewStyle(.stack)
         }
-        .tint(color)
-        .navigationViewStyle(.stack)
         .onChange(of: color) { new in
             accentColor = updateCardColorInAppStorage(color: new)
         }
@@ -145,26 +153,38 @@ struct SettingsView: View {
     @AppStorage("accent") var accentColor: String = updateCardColorInAppStorage(color: .accentColor)
     @Binding var col: Color
     @AppStorage("swag") var swag = true
+    
+    @AppStorage("cr") var customReboot = true
+    @AppStorage("verbose") var verboseBoot = false
+    @AppStorage("unthreded") var untether = true
+    @AppStorage("hide") var hide = false
     var body: some View {
         NavigationView {
             List {
-                HStack {
-                    Text("Accent Color")
-                    Spacer()
-                    ColorPicker("Accent Color", selection: $col)
-                        .labelsHidden()
-                    Button("", systemImage: "arrow.counterclockwise") {
-                        col = .accentColor
+                Section("Jelbrek") {
+                    Toggle("Custom Reboot Logo", isOn: $customReboot)
+                    Toggle("Verbose Boot", isOn: $verboseBoot)
+                    Toggle("Enable untether", isOn: $untether)
+                    Toggle("Hide environment", isOn: $hide)
+                }
+                Section(content: {
+                    HStack {
+                        Text("Accent Color")
+                        Spacer()
+                        ColorPicker("Accent Color", selection: $col)
+                            .labelsHidden()
+                        Button("", systemImage: "arrow.counterclockwise") {
+                            col = .accentColor
+                        }
                     }
-                }
-                HStack {
-                    Text("Swag Mode")
-                    Spacer()
-                    Toggle("Swag Mode", isOn: $swag)
-                        .tint(col)
-                        .labelsHidden()
-                }
+                    HStack {
+                        Toggle("Swag Mode", isOn: $swag)
+                    }
+                }, header: {Text("UI")}, footer: {
+                    Label("Turn off swag mode if the main menu feels sluggish.", systemImage: "info.circle")
+                })
             }
+            .listStyle(.automatic)
             .tint(col)
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)

@@ -35,14 +35,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D6701EDE2B3BA2E2007F32F7 /* AppLogDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppLogDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6701EDE2B3BA2E2007F32F7 /* JelbrekUIConcept.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JelbrekUIConcept.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6701EE12B3BA2E2007F32F7 /* AppLogDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogDemoApp.swift; sourceTree = "<group>"; };
 		D6701EE32B3BA2E2007F32F7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D6701EE52B3BA2E5007F32F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D6701EE82B3BA2E5007F32F7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		D6701EEE2B3BA2E6007F32F7 /* AppLogDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppLogDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6701EEE2B3BA2E6007F32F7 /* JelbrekUIConceptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JelbrekUIConceptTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6701EF22B3BA2E6007F32F7 /* AppLogDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogDemoTests.swift; sourceTree = "<group>"; };
-		D6701EF82B3BA2E6007F32F7 /* AppLogDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppLogDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6701EF82B3BA2E6007F32F7 /* JelbrekUIConceptUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JelbrekUIConceptUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6701EFC2B3BA2E6007F32F7 /* AppLogDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogDemoUITests.swift; sourceTree = "<group>"; };
 		D6701EFE2B3BA2E6007F32F7 /* AppLogDemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogDemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -86,9 +86,9 @@
 		D6701EDF2B3BA2E2007F32F7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D6701EDE2B3BA2E2007F32F7 /* AppLogDemo.app */,
-				D6701EEE2B3BA2E6007F32F7 /* AppLogDemoTests.xctest */,
-				D6701EF82B3BA2E6007F32F7 /* AppLogDemoUITests.xctest */,
+				D6701EDE2B3BA2E2007F32F7 /* JelbrekUIConcept.app */,
+				D6701EEE2B3BA2E6007F32F7 /* JelbrekUIConceptTests.xctest */,
+				D6701EF82B3BA2E6007F32F7 /* JelbrekUIConceptUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -132,9 +132,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D6701EDD2B3BA2E2007F32F7 /* AppLogDemo */ = {
+		D6701EDD2B3BA2E2007F32F7 /* JelbrekUIConcept */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D6701F022B3BA2E6007F32F7 /* Build configuration list for PBXNativeTarget "AppLogDemo" */;
+			buildConfigurationList = D6701F022B3BA2E6007F32F7 /* Build configuration list for PBXNativeTarget "JelbrekUIConcept" */;
 			buildPhases = (
 				D6701EDA2B3BA2E2007F32F7 /* Sources */,
 				D6701EDB2B3BA2E2007F32F7 /* Frameworks */,
@@ -144,17 +144,17 @@
 			);
 			dependencies = (
 			);
-			name = AppLogDemo;
+			name = JelbrekUIConcept;
 			packageProductDependencies = (
 				D6701F0C2B3BB071007F32F7 /* FluidGradient */,
 			);
 			productName = AppLogDemo;
-			productReference = D6701EDE2B3BA2E2007F32F7 /* AppLogDemo.app */;
+			productReference = D6701EDE2B3BA2E2007F32F7 /* JelbrekUIConcept.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D6701EED2B3BA2E6007F32F7 /* AppLogDemoTests */ = {
+		D6701EED2B3BA2E6007F32F7 /* JelbrekUIConceptTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D6701F052B3BA2E6007F32F7 /* Build configuration list for PBXNativeTarget "AppLogDemoTests" */;
+			buildConfigurationList = D6701F052B3BA2E6007F32F7 /* Build configuration list for PBXNativeTarget "JelbrekUIConceptTests" */;
 			buildPhases = (
 				D6701EEA2B3BA2E6007F32F7 /* Sources */,
 				D6701EEB2B3BA2E6007F32F7 /* Frameworks */,
@@ -165,14 +165,14 @@
 			dependencies = (
 				D6701EF02B3BA2E6007F32F7 /* PBXTargetDependency */,
 			);
-			name = AppLogDemoTests;
+			name = JelbrekUIConceptTests;
 			productName = AppLogDemoTests;
-			productReference = D6701EEE2B3BA2E6007F32F7 /* AppLogDemoTests.xctest */;
+			productReference = D6701EEE2B3BA2E6007F32F7 /* JelbrekUIConceptTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		D6701EF72B3BA2E6007F32F7 /* AppLogDemoUITests */ = {
+		D6701EF72B3BA2E6007F32F7 /* JelbrekUIConceptUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D6701F082B3BA2E6007F32F7 /* Build configuration list for PBXNativeTarget "AppLogDemoUITests" */;
+			buildConfigurationList = D6701F082B3BA2E6007F32F7 /* Build configuration list for PBXNativeTarget "JelbrekUIConceptUITests" */;
 			buildPhases = (
 				D6701EF42B3BA2E6007F32F7 /* Sources */,
 				D6701EF52B3BA2E6007F32F7 /* Frameworks */,
@@ -183,9 +183,9 @@
 			dependencies = (
 				D6701EFA2B3BA2E6007F32F7 /* PBXTargetDependency */,
 			);
-			name = AppLogDemoUITests;
+			name = JelbrekUIConceptUITests;
 			productName = AppLogDemoUITests;
-			productReference = D6701EF82B3BA2E6007F32F7 /* AppLogDemoUITests.xctest */;
+			productReference = D6701EF82B3BA2E6007F32F7 /* JelbrekUIConceptUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -211,7 +211,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D6701ED92B3BA2E2007F32F7 /* Build configuration list for PBXProject "AppLogDemo" */;
+			buildConfigurationList = D6701ED92B3BA2E2007F32F7 /* Build configuration list for PBXProject "JelbrekUIConcept" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -227,9 +227,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D6701EDD2B3BA2E2007F32F7 /* AppLogDemo */,
-				D6701EED2B3BA2E6007F32F7 /* AppLogDemoTests */,
-				D6701EF72B3BA2E6007F32F7 /* AppLogDemoUITests */,
+				D6701EDD2B3BA2E2007F32F7 /* JelbrekUIConcept */,
+				D6701EED2B3BA2E6007F32F7 /* JelbrekUIConceptTests */,
+				D6701EF72B3BA2E6007F32F7 /* JelbrekUIConceptUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -292,12 +292,12 @@
 /* Begin PBXTargetDependency section */
 		D6701EF02B3BA2E6007F32F7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D6701EDD2B3BA2E2007F32F7 /* AppLogDemo */;
+			target = D6701EDD2B3BA2E2007F32F7 /* JelbrekUIConcept */;
 			targetProxy = D6701EEF2B3BA2E6007F32F7 /* PBXContainerItemProxy */;
 		};
 		D6701EFA2B3BA2E6007F32F7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D6701EDD2B3BA2E2007F32F7 /* AppLogDemo */;
+			target = D6701EDD2B3BA2E2007F32F7 /* JelbrekUIConcept */;
 			targetProxy = D6701EF92B3BA2E6007F32F7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -433,6 +433,7 @@
 				DEVELOPMENT_TEAM = 8JKVMYCRTJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = JelbrekUIConcept;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -444,7 +445,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ca.bomberfish.AppLogDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = ca.bomberfish.JelbrekUIConcept;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -463,6 +464,7 @@
 				DEVELOPMENT_TEAM = 8JKVMYCRTJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = JelbrekUIConcept;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -474,7 +476,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ca.bomberfish.AppLogDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = ca.bomberfish.JelbrekUIConcept;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -497,7 +499,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AppLogDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AppLogDemo";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JelbrekUIConcept.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/JelbrekUIConcept";
 			};
 			name = Debug;
 		};
@@ -516,7 +518,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AppLogDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AppLogDemo";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JelbrekUIConcept.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/JelbrekUIConcept";
 			};
 			name = Release;
 		};
@@ -557,7 +559,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D6701ED92B3BA2E2007F32F7 /* Build configuration list for PBXProject "AppLogDemo" */ = {
+		D6701ED92B3BA2E2007F32F7 /* Build configuration list for PBXProject "JelbrekUIConcept" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D6701F002B3BA2E6007F32F7 /* Debug */,
@@ -566,7 +568,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D6701F022B3BA2E6007F32F7 /* Build configuration list for PBXNativeTarget "AppLogDemo" */ = {
+		D6701F022B3BA2E6007F32F7 /* Build configuration list for PBXNativeTarget "JelbrekUIConcept" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D6701F032B3BA2E6007F32F7 /* Debug */,
@@ -575,7 +577,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D6701F052B3BA2E6007F32F7 /* Build configuration list for PBXNativeTarget "AppLogDemoTests" */ = {
+		D6701F052B3BA2E6007F32F7 /* Build configuration list for PBXNativeTarget "JelbrekUIConceptTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D6701F062B3BA2E6007F32F7 /* Debug */,
@@ -584,7 +586,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D6701F082B3BA2E6007F32F7 /* Build configuration list for PBXNativeTarget "AppLogDemoUITests" */ = {
+		D6701F082B3BA2E6007F32F7 /* Build configuration list for PBXNativeTarget "JelbrekUIConceptUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D6701F092B3BA2E6007F32F7 /* Debug */,
