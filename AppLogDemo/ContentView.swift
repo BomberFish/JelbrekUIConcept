@@ -229,7 +229,7 @@ struct ContentView: View {
             "[*] Bypassing PPL",
             "[*] Bypassing KTRR",
             reinstall ? "[*] Reinstalling bootstrap" : "[*] Bootstrapping",
-            untether ? "[*] Installing untether" : "",
+            untether ? "[*] Installing untether\n" : "",
             "[✓] Done."
         ]
         progress((0.0, "[i] \(UIDevice.current.model), iOS \(UIDevice.current.systemVersion)"))
