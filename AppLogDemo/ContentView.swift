@@ -61,7 +61,7 @@ struct ContentView: View {
                                 Rectangle()
                                     .fill(.clear)
                                     .blur(radius: 16)
-                                    .background(Color(UIColor.secondarySystemGroupedBackground).opacity(0.3))
+                                    .background(Color(UIColor.secondarySystemGroupedBackground).opacity(0.5))
                                 VStack {
                                     Toggle("Reinstall strap", isOn: $reinstall)
                                         .onChange(of: reinstall) { _ in
@@ -95,7 +95,7 @@ struct ContentView: View {
                             Rectangle()
                                 .fill(.clear)
                                 .blur(radius: 16)
-                                .background(Color(UIColor.secondarySystemGroupedBackground).opacity(0.3))
+                                .background(Color(UIColor.secondarySystemGroupedBackground).opacity(0.5))
                             ScrollView {
                                 LazyVStack(alignment: .leading) {
                                     ScrollViewReader { value in

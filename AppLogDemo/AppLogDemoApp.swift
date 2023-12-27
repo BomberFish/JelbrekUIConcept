@@ -10,7 +10,7 @@ struct AppLogDemoApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(triggerRespring: $triggerRespring)
-                .preferredColorScheme(triggerRespring ? .dark : .none)
+                .preferredColorScheme(/*triggerRespring ?*/ .dark /*: .none*/)
                 .background(Color(triggerRespring ? .black : UIColor.systemBackground))
                 .scaleEffect(triggerRespring ? 0.95 : 1)
                 .brightness(triggerRespring ? -2 : 0)
