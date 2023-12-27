@@ -5,14 +5,7 @@
 import FluidGradient
 import SwiftUI
 
-func sysctlbynameButBetter(_ str: String) -> String! {
-    var size = 0
-    sysctlbyname(str, nil, &size, nil, 0)
-    var machine = [CChar](repeating: 0,  count: size)
-    sysctlbyname(str, &machine, &size, nil, 0)
-    if machine.isEmpty { return nil }
-    return String(cString: machine)
-}
+let fancyAnimation: Animation = .snappy(duration: 0.3, extraBounce: 0.2) // smoooooth operaaatooor
 
 struct ContentView: View {
     @Binding var triggerRespring: Bool
@@ -24,7 +17,6 @@ struct ContentView: View {
     @State var color: Color = .accentColor
     @AppStorage("accent") var accentColor: String = updateCardColorInAppStorage(color: .accentColor)
     @AppStorage("swag") var swag = true
-    let fancyAnimation: Animation = .snappy(duration: 0.3, extraBounce: 0.2) // smoooooth operaaatooor
     @AppStorage("cr") var customReboot = true
     @AppStorage("verbose") var verboseBoot = false
     @AppStorage("unthreded") var untether = true
@@ -179,8 +171,10 @@ struct ContentView: View {
             accentColor = updateCardColorInAppStorage(color: new)
         }
         .onAppear {
-            let rgbArray = accentColor.components(separatedBy: ",")
-            if let red = Double(rgbArray[0]), let green = Double(rgbArray[1]), let blue = Double(rgbArray[2]), let alpha = Double(rgbArray[3]) { color = Color(.sRGB, red: red, green: green, blue: blue, opacity: alpha) }
+            withAnimation(fancyAnimation) {
+                let rgbArray = accentColor.components(separatedBy: ",")
+                if let red = Double(rgbArray[0]), let green = Double(rgbArray[1]), let blue = Double(rgbArray[2]), let alpha = Double(rgbArray[3]) { color = Color(.sRGB, red: red, green: green, blue: blue, opacity: alpha) }
+            }
         }
     }
     func funnyThing(_ exampleArg: Bool, progress: @escaping ((Double, String)) -> ()) {
@@ -222,6 +216,7 @@ struct SettingsView: View {
     @AppStorage("verbose") var verboseBoot = false
     @AppStorage("unthreded") var untether = true
     @AppStorage("hide") var hide = false
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationView {
             List {
@@ -238,8 +233,12 @@ struct SettingsView: View {
                         ColorPicker("Accent Color", selection: $col)
                             .labelsHidden()
                         Button("", systemImage: "arrow.counterclockwise") {
-                            col = .accentColor
+                            withAnimation(fancyAnimation) {
+                                col = .accentColor
+                            }
                         }
+                        .tint(col)
+                        .foregroundColor(col)
                     }
                     HStack {
                         Toggle("Swag Mode", isOn: $swag)
@@ -252,6 +251,16 @@ struct SettingsView: View {
             .tint(col)
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("", systemImage: "xmark") {
+                        dismiss()
+                    }
+                    .font(.caption)
+                    .tint(Color(UIColor.label))
+//                    .background(Color(UIColor.secondarySystemBackground).padding())
+                }
+            }
         }
     }
 }
