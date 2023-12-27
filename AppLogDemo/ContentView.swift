@@ -156,7 +156,50 @@ struct ContentView: View {
                 }
                 .navigationTitle("Jelbrek")
                 .sheet(isPresented: $settings) {
-                    SettingsView(col: $color)
+                    NavigationView {
+                        List {
+                            Section("Jelbrek") {
+                                Toggle("Custom Reboot Logo", isOn: $customReboot)
+                                Toggle("Verbose Boot", isOn: $verboseBoot)
+                                Toggle("Enable untether", isOn: $untether)
+                                Toggle("Hide environment", isOn: $hide)
+                            }
+                            Section(content: {
+                                HStack {
+                                    Text("Accent Color")
+                                    Spacer()
+                                    ColorPicker("Accent Color", selection: $color)
+                                        .labelsHidden()
+                                    Button("", systemImage: "arrow.counterclockwise") {
+                                        withAnimation(fancyAnimation) {
+                                            color = .accentColor
+                                        }
+                                    }
+                                    .tint(color)
+                                    .foregroundColor(color)
+                                }
+                                HStack {
+                                    Toggle("Swag Mode", isOn: $swag)
+                                }
+                            }, header: {Text("UI")}, footer: {
+                                Label("Turn off swag mode if the main menu feels sluggish.", systemImage: "info.circle")
+                            })
+                        }
+                        .listStyle(.automatic)
+                        .tint(color)
+                        .navigationTitle("Settings")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button("", systemImage: "xmark") {
+                                    settings = false
+                                }
+                                .font(.caption)
+                                .tint(Color(UIColor.label))
+            //                    .background(Color(UIColor.secondarySystemBackground).padding())
+                            }
+                        }
+                    }
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
@@ -209,63 +252,6 @@ func updateCardColorInAppStorage(color: Color) -> String {
     return "\(red),\(green),\(blue),\(alpha)"
 }
 
-struct SettingsView: View {
-    @AppStorage("accent") var accentColor: String = updateCardColorInAppStorage(color: .accentColor)
-    @Binding var col: Color
-    @AppStorage("swag") var swag = true
-    
-    @AppStorage("cr") var customReboot = true
-    @AppStorage("verbose") var verboseBoot = false
-    @AppStorage("unthreded") var untether = true
-    @AppStorage("hide") var hide = false
-    @Environment(\.dismiss) var dismiss
-    var body: some View {
-        NavigationView {
-            List {
-                Section("Jelbrek") {
-                    Toggle("Custom Reboot Logo", isOn: $customReboot)
-                    Toggle("Verbose Boot", isOn: $verboseBoot)
-                    Toggle("Enable untether", isOn: $untether)
-                    Toggle("Hide environment", isOn: $hide)
-                }
-                Section(content: {
-                    HStack {
-                        Text("Accent Color")
-                        Spacer()
-                        ColorPicker("Accent Color", selection: $col)
-                            .labelsHidden()
-                        Button("", systemImage: "arrow.counterclockwise") {
-                            withAnimation(fancyAnimation) {
-                                col = .accentColor
-                            }
-                        }
-                        .tint(col)
-                        .foregroundColor(col)
-                    }
-                    HStack {
-                        Toggle("Swag Mode", isOn: $swag)
-                    }
-                }, header: {Text("UI")}, footer: {
-                    Label("Turn off swag mode if the main menu feels sluggish.", systemImage: "info.circle")
-                })
-            }
-            .listStyle(.automatic)
-            .tint(col)
-            .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("", systemImage: "xmark") {
-                        dismiss()
-                    }
-                    .font(.caption)
-                    .tint(Color(UIColor.label))
-//                    .background(Color(UIColor.secondarySystemBackground).padding())
-                }
-            }
-        }
-    }
-}
 
 #Preview {
     ContentView(triggerRespring: .constant(false))
