@@ -5,7 +5,7 @@
 import FluidGradient
 import SwiftUI
 
-let fancyAnimation: Animation = .snappy(duration: 0.3, extraBounce: 0.2) // smoooooth operaaatooor
+let fancyAnimation: Animation = .snappy(duration: 0.35, extraBounce: 0.085) // smoooooth operaaatooor
 
 struct ContentView: View {
     @Binding var triggerRespring: Bool
@@ -13,7 +13,7 @@ struct ContentView: View {
     @State var progress: Double = 0.0
     @State var isRunning = false
     @State var finished = false
-    @State var settings = false
+    @State var settingsOpen = false
     @State var color: Color = .accentColor
     @AppStorage("accent") var accentColor: String = updateCardColorInAppStorage(color: .accentColor)
     @AppStorage("swag") var swag = true
@@ -21,8 +21,83 @@ struct ContentView: View {
     @AppStorage("verbose") var verboseBoot = false
     @AppStorage("unthreded") var untether = true
     @AppStorage("hide") var hide = false
+    @AppStorage("loadd") var loadLaunch = false
     @State var reinstall = false
     @State var resetfs = false
+
+    @ViewBuilder
+    var settings: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Label("Jailbreak", systemImage: "terminal")
+                        .padding(.leading, 17.5)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    VStack {
+                        VStack {
+                            Toggle("Custom Reboot Logo", isOn: $customReboot)
+                            Toggle("Load Launch Daemons", isOn: $loadLaunch)
+                            Toggle("Verbose Boot", isOn: $verboseBoot)
+                            Toggle("Enable untether", isOn: $untether)
+                            Toggle("Hide environment", isOn: $hide)
+                        }
+                        .padding(15)
+                        .background(.regularMaterial)
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .disabled(isRunning || finished)
+                    Divider()
+                        .padding(.vertical, 15)
+                    Label("Appearance", systemImage: "paintpalette")
+                        .padding(.leading, 17.5)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    VStack {
+                        VStack {
+                            HStack {
+                                Text("Accent Color")
+                                Spacer()
+                                ColorPicker("Accent Color", selection: $color)
+                                    .labelsHidden()
+                                Button("", systemImage: "arrow.counterclockwise") {
+                                    withAnimation(fancyAnimation) {
+                                        color = .accentColor
+                                    }
+                                }
+                                .tint(color)
+                                .foregroundColor(color)
+                            }
+                            HStack {
+                                Toggle("Swag Mode", isOn: $swag)
+                            }
+                        }
+                        .padding(15)
+
+                        .background(.regularMaterial)
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                }
+//                .background(.black)
+                .padding(20)
+            }
+//            .background(.black)
+            .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("", systemImage: "xmark") {
+                        settingsOpen = false
+                    }
+                    .font(.caption)
+                    .tint(Color(UIColor.label))
+                }
+            }
+        }
+//        .background(.black)
+    }
+
+    @ViewBuilder
     var body: some View {
         GeometryReader { geo in
             NavigationView {
@@ -38,25 +113,17 @@ struct ContentView: View {
                         .background(triggerRespring ? .black : Color(UIColor.systemBackground).opacity(0.8))
                         .ignoresSafeArea(.all)
                     VStack {
+                        VStack(alignment: .leading) {
+                            Text("Jelbrek") // apex?????
+                                .multilineTextAlignment(.leading)
+                                .font(.system(.largeTitle, design: .rounded).weight(.bold))
+                            Text("Semi-jailbreak for iOS 15.0–17.0.0")
+                        }
+                        .padding(.top, 30)
+                        .padding(.leading, 5)
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
                         Spacer()
                         if !isRunning && !finished {
-                            Button("Jelbrek") {
-                                UIImpactFeedbackGenerator(style: .soft).impactOccurred(intensity: 200)
-                                withAnimation(fancyAnimation) {
-                                    isRunning = true
-                                }
-                                funnyThing(true) { prog, log in
-                                    withAnimation(fancyAnimation) {
-                                        progress = prog
-                                        logItems.append(log)
-                                    }
-                                }
-                            }
-                            .disabled(isRunning || finished)
-                            .buttonStyle(.bordered)
-                            .tint(color)
-                            .controlSize(.large)
-                            
                             ZStack {
                                 Rectangle()
                                     .fill(.clear)
@@ -80,17 +147,20 @@ struct ContentView: View {
                                                 }
                                             }
                                         }
+                                    Divider()
+                                    Button("More Settings", systemImage: "gear") {
+                                        UIImpactFeedbackGenerator(style: .medium).impactOccurred(intensity: 200)
+                                        settingsOpen.toggle()
+                                    }
+                                    .padding(.top, 5)
                                 }
                                 .padding()
                             }
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                            .frame(width: geo.size.width / 1.5, height: geo.size.height / 4.5)
-                            
-                            Text("This is a fake jailbreak.\nBy BomberFish. Released under the MIT Licence.")
-                                .multilineTextAlignment(.center)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                            .frame(width: geo.size.width / 1.5, height: geo.size.height / 6.5)
+                            .padding(.vertical)
                         }
+
                         ZStack {
                             Rectangle()
                                 .fill(.clear)
@@ -116,10 +186,10 @@ struct ContentView: View {
                                 .padding()
                             }
                         }
-                        .frame(height: logItems.isEmpty ? 0 : geo.size.height / 1.5, alignment: .leading)
+                        .frame(height: logItems.isEmpty ? 0 : geo.size.height / 2.5, alignment: .leading)
                         //                    .background(.ultraThinMaterial)
-                        
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
                         .onChange(of: progress) { p in
                             if p == 1.0 {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
@@ -130,6 +200,7 @@ struct ContentView: View {
                                 }
                             }
                         }
+
                         Group {
                             if isRunning {
                                 ProgressView(value: progress)
@@ -137,76 +208,65 @@ struct ContentView: View {
                                 Text(progress == 1.0 ? "Complete" : "\(Int(progress * 100))%")
                                     .font(.caption)
                             }
-                            if finished {
-                                Button("Respring") {
-//                                    exit(0)
-                                    withAnimation(.easeInOut(duration: 0.1)) {
-                                        triggerRespring = true
-                                    }
-                                }
-                                .buttonStyle(.bordered)
-                                .tint(color)
-                                .controlSize(.large)
-                            }
                         }
                         .padding(.top, 10)
+
+                        Button(action: {
+                            UIImpactFeedbackGenerator(style: .soft).impactOccurred(intensity: 200)
+                            if finished {
+                                triggerRespring = true
+                            } else {
+                                withAnimation(fancyAnimation) {
+                                    isRunning = true
+                                }
+                                funnyThing(true) { prog, log in
+                                    withAnimation(fancyAnimation) {
+                                        progress = prog
+                                        logItems.append(log)
+                                    }
+                                }
+                            }
+                        }, label: {
+                            if isRunning {
+                                Label("Jelbreking", systemImage: "lock.open")
+                                    .frame(width: geo.size.width / 2.5)
+                            } else if finished {
+                                Label("Userspace Reboot", systemImage: "arrow.clockwise")
+                                    .frame(width: geo.size.width / 1.75)
+                            } else {
+                                Label("Jelbrek", systemImage: "lock")
+                                    .frame(width: geo.size.width / 1.75)
+                            }
+                        })
+                        .disabled(isRunning)
+                        .buttonStyle(.bordered)
+                        .tint(finished ? .green : color)
+                        .controlSize(.large)
+                        .padding(.vertical, 4)
+                        if !isRunning && !finished {
+                            Text("This is a fake jailbreak.\nBy BomberFish. Released under the MIT Licence.")
+                                .multilineTextAlignment(.center)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
                         Spacer()
                     }
                     .padding()
                 }
-                .navigationTitle("Jelbrek")
-                .sheet(isPresented: $settings) {
-                    NavigationView {
-                        List {
-                            Section("Jelbrek") {
-                                Toggle("Custom Reboot Logo", isOn: $customReboot)
-                                Toggle("Verbose Boot", isOn: $verboseBoot)
-                                Toggle("Enable untether", isOn: $untether)
-                                Toggle("Hide environment", isOn: $hide)
-                            }
-                            .disabled(isRunning || finished)
-                            Section(content: {
-                                HStack {
-                                    Text("Accent Color")
-                                    Spacer()
-                                    ColorPicker("Accent Color", selection: $color)
-                                        .labelsHidden()
-                                    Button("", systemImage: "arrow.counterclockwise") {
-                                        withAnimation(fancyAnimation) {
-                                            color = .accentColor
-                                        }
-                                    }
-                                    .tint(color)
-                                    .foregroundColor(color)
-                                }
-                                HStack {
-                                    Toggle("Swag Mode", isOn: $swag)
-                                }
-                            }, header: {Text("UI")}, footer: {
-                                Label("Turn off swag mode if the main menu feels sluggish.", systemImage: "info.circle")
-                            })
+                .sheet(isPresented: $settingsOpen) {
+                    if #available(iOS 16.0, *) {
+                        if #available(iOS 16.4, *) {
+                            settings
+                                .presentationDetents([.medium, .large])
+                                .presentationBackground(.regularMaterial)
+                        } else {
+                            settings
+                                .presentationDetents([.medium, .large])
+                                .background(.regularMaterial)
                         }
-                        .listStyle(.automatic)
-                        .tint(color)
-                        .navigationTitle("Settings")
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbar {
-                            ToolbarItem(placement: .topBarTrailing) {
-                                Button("", systemImage: "xmark") {
-                                    settings = false
-                                }
-                                .font(.caption)
-                                .tint(Color(UIColor.label))
-            //                    .background(Color(UIColor.secondarySystemBackground).padding())
-                            }
-                        }
-                    }
-                }
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: { settings = true }) {
-                            Image(systemName: "gear")
-                        }
+                    } else {
+                        settings
+                            .background(.regularMaterial)
                     }
                 }
             }
@@ -223,6 +283,7 @@ struct ContentView: View {
             }
         }
     }
+
     func funnyThing(_ exampleArg: Bool, progress: @escaping ((Double, String)) -> ()) {
         let steps = [
             "[*] Getting Kernel R/W",
@@ -232,14 +293,13 @@ struct ContentView: View {
             untether ? "[*] Installing untether\n" : "",
             "[✓] Done."
         ]
-        progress((0.0, "[i] \(UIDevice.current.model), iOS \(UIDevice.current.systemVersion)"))
-        for i in 0..<steps.count {
+        progress((0.0, "[i] \(UIDevice.current.localizedModel), iOS \(UIDevice.current.systemVersion)"))
+        for i in 0 ..< steps.count {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 2.0) {
-                progress((Double(i)/Double(steps.count - 1), steps[i]))
+                progress((Double(i) / Double(steps.count - 1), steps[i]))
             }
         }
     }
-
 }
 
 func updateCardColorInAppStorage(color: Color) -> String {
@@ -252,7 +312,6 @@ func updateCardColorInAppStorage(color: Color) -> String {
 
     return "\(red),\(green),\(blue),\(alpha)"
 }
-
 
 #Preview {
     ContentView(triggerRespring: .constant(false))
