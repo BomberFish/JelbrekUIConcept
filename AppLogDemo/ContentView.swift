@@ -8,7 +8,7 @@ import SwiftUI
 let fancyAnimation: Animation = .snappy(duration: 0.35, extraBounce: 0.085) // smoooooth operaaatooor
 
 struct ContentView: View {
-    @Binding var triggerRespring: Bool
+    @Binding var triggerRespring: Bool // dont use this when porting this ui to your jailbreak (unless you respring in the same way)
     @State var logItems: [String] = []
     @State var progress: Double = 0.0
     @State var isRunning = false
@@ -17,6 +17,8 @@ struct ContentView: View {
     @State var color: Color = .accentColor
     @AppStorage("accent") var accentColor: String = updateCardColorInAppStorage(color: .accentColor)
     @AppStorage("swag") var swag = true
+    @State var showingGradient = false
+    @State var blurScreen = false
     @AppStorage("cr") var customReboot = true
     @AppStorage("verbose") var verboseBoot = false
     @AppStorage("unthreded") var untether = true
@@ -48,7 +50,7 @@ struct ContentView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 14))
                     .disabled(isRunning || finished)
                     Divider()
-                        .padding(.vertical, 15)
+                        .padding(.vertical, 8)
                     Label("Appearance", systemImage: "paintpalette")
                         .padding(.leading, 17.5)
                         .font(.caption)
@@ -77,24 +79,28 @@ struct ContentView: View {
                         .background(.regularMaterial)
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 14))
+                    Label("Disable Swag Mode if the app seems sluggish.", systemImage: "info.circle")
+                        .padding(.leading, 17.5)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                 }
-//                .background(.black)
                 .padding(20)
             }
-//            .background(.black)
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("", systemImage: "xmark") {
                         settingsOpen = false
+                        withAnimation(fancyAnimation) {
+                            blurScreen = false
+                        }
                     }
-                    .font(.caption)
+                    .font(.system(size: 15))
                     .tint(Color(UIColor.label))
                 }
             }
         }
-//        .background(.black)
     }
 
     @ViewBuilder
@@ -102,15 +108,15 @@ struct ContentView: View {
         GeometryReader { geo in
             NavigationView {
                 ZStack {
-                    Color(triggerRespring ? .black : UIColor.systemBackground)
+                    Color.black
                         .ignoresSafeArea(.all)
-                    if swag && !triggerRespring {
-                        FluidGradient(blobs: [color, color, color, color, color, color, color, color, color], speed: 0.4, blur: 0.7) // swag alert #420blazeit
+                    if showingGradient {
+                        FluidGradient(blobs: [color, color, color, color, color, color, color, color, color], speed: 0.35, blur: 0.7) // swag alert #420blazeit
                             .ignoresSafeArea(.all)
                     }
                     Rectangle()
                         .fill(.clear)
-                        .background(triggerRespring ? .black : Color(UIColor.systemBackground).opacity(0.8))
+                        .background(.black.opacity(0.8))
                         .ignoresSafeArea(.all)
                     VStack {
                         VStack(alignment: .leading) {
@@ -130,7 +136,7 @@ struct ContentView: View {
                                     .blur(radius: 16)
                                     .background(Color(UIColor.secondarySystemGroupedBackground).opacity(0.5))
                                 VStack {
-                                    Toggle("Reinstall strap", isOn: $reinstall)
+                                    Toggle("Reinstall bootstrap", isOn: $reinstall)
                                         .onChange(of: reinstall) { _ in
                                             if reinstall {
                                                 withAnimation(fancyAnimation) {
@@ -139,7 +145,7 @@ struct ContentView: View {
                                             }
                                         }
                                     Divider()
-                                    Toggle("Remove jailbreak", isOn: $resetfs)
+                                    Toggle("Restore system", isOn: $resetfs)
                                         .onChange(of: resetfs) { _ in
                                             if resetfs {
                                                 withAnimation(fancyAnimation) {
@@ -151,6 +157,9 @@ struct ContentView: View {
                                     Button("More Settings", systemImage: "gear") {
                                         UIImpactFeedbackGenerator(style: .medium).impactOccurred(intensity: 200)
                                         settingsOpen.toggle()
+                                        withAnimation(fancyAnimation) {
+                                            blurScreen = true
+                                        }
                                     }
                                     .padding(.top, 5)
                                 }
@@ -214,7 +223,7 @@ struct ContentView: View {
                         Button(action: {
                             UIImpactFeedbackGenerator(style: .soft).impactOccurred(intensity: 200)
                             if finished {
-                                triggerRespring = true
+                                triggerRespring = true // change this when porting this ui to your jailbreak
                             } else {
                                 withAnimation(fancyAnimation) {
                                     isRunning = true
@@ -253,22 +262,33 @@ struct ContentView: View {
                     }
                     .padding()
                 }
-                .sheet(isPresented: $settingsOpen) {
+                .blur(radius: swag && blurScreen ? 3 : 0)
+                .overlay {
+                    if blurScreen {
+                        Color.black.opacity(0.3)
+                            .ignoresSafeArea(.all)
+                    }
+                }
+                .sheet(isPresented: $settingsOpen, onDismiss: {
+                    withAnimation(fancyAnimation) {
+                        blurScreen = false
+                    }
+                }, content: {
                     if #available(iOS 16.0, *) {
                         if #available(iOS 16.4, *) {
                             settings
-                                .presentationDetents([.medium, .large])
+                                .presentationDetents([.medium])
                                 .presentationBackground(.regularMaterial)
                         } else {
                             settings
-                                .presentationDetents([.medium, .large])
+                                .presentationDetents([.medium])
                                 .background(.regularMaterial)
                         }
                     } else {
                         settings
                             .background(.regularMaterial)
                     }
-                }
+                })
             }
             .tint(color)
             .navigationViewStyle(.stack)
@@ -277,9 +297,15 @@ struct ContentView: View {
             accentColor = updateCardColorInAppStorage(color: new)
         }
         .onAppear {
+            showingGradient = swag
             withAnimation(fancyAnimation) {
                 let rgbArray = accentColor.components(separatedBy: ",")
                 if let red = Double(rgbArray[0]), let green = Double(rgbArray[1]), let blue = Double(rgbArray[2]), let alpha = Double(rgbArray[3]) { color = Color(.sRGB, red: red, green: green, blue: blue, opacity: alpha) }
+            }
+        }
+        .onChange(of: swag) { new in
+            withAnimation(fancyAnimation) {
+                showingGradient = new
             }
         }
     }
