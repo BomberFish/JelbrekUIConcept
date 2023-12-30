@@ -5,7 +5,7 @@
 import SwiftUI
 
 @main
-struct AppLogDemoApp: App {
+struct JelbrekUIConceptApp: App {
     @State var triggerRespring = false
     var body: some Scene {
         WindowGroup {

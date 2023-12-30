@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D65F16CE2B3F992300CF1F27 /* SwiftUIBackports in Frameworks */ = {isa = PBXBuildFile; productRef = D65F16CD2B3F992300CF1F27 /* SwiftUIBackports */; };
 		D6701EE22B3BA2E2007F32F7 /* AppLogDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6701EE12B3BA2E2007F32F7 /* AppLogDemoApp.swift */; };
 		D6701EE42B3BA2E2007F32F7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6701EE32B3BA2E2007F32F7 /* ContentView.swift */; };
 		D6701EE62B3BA2E5007F32F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D6701EE52B3BA2E5007F32F7 /* Assets.xcassets */; };
@@ -52,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D65F16CE2B3F992300CF1F27 /* SwiftUIBackports in Frameworks */,
 				D6701F0D2B3BB071007F32F7 /* FluidGradient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,6 +149,7 @@
 			name = JelbrekUIConcept;
 			packageProductDependencies = (
 				D6701F0C2B3BB071007F32F7 /* FluidGradient */,
+				D65F16CD2B3F992300CF1F27 /* SwiftUIBackports */,
 			);
 			productName = AppLogDemo;
 			productReference = D6701EDE2B3BA2E2007F32F7 /* JelbrekUIConcept.app */;
@@ -222,6 +225,7 @@
 			mainGroup = D6701ED52B3BA2E2007F32F7;
 			packageReferences = (
 				D6701F0B2B3BB071007F32F7 /* XCRemoteSwiftPackageReference "FluidGradient" */,
+				D65F16CC2B3F992300CF1F27 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */,
 			);
 			productRefGroup = D6701EDF2B3BA2E2007F32F7 /* Products */;
 			projectDirPath = "";
@@ -437,8 +441,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -468,8 +472,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -598,6 +602,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D65F16CC2B3F992300CF1F27 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/shaps80/SwiftUIBackports";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.0;
+			};
+		};
 		D6701F0B2B3BB071007F32F7 /* XCRemoteSwiftPackageReference "FluidGradient" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Cindori/FluidGradient";
@@ -609,6 +621,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D65F16CD2B3F992300CF1F27 /* SwiftUIBackports */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D65F16CC2B3F992300CF1F27 /* XCRemoteSwiftPackageReference "SwiftUIBackports" */;
+			productName = SwiftUIBackports;
+		};
 		D6701F0C2B3BB071007F32F7 /* FluidGradient */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D6701F0B2B3BB071007F32F7 /* XCRemoteSwiftPackageReference "FluidGradient" */;

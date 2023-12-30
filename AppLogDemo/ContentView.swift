@@ -4,8 +4,10 @@
 
 import FluidGradient
 import SwiftUI
+import SwiftUIBackports
 
 let fancyAnimation: Animation = .snappy(duration: 0.35, extraBounce: 0.085) // smoooooth operaaatooor
+
 
 struct ContentView: View {
     @Binding var triggerRespring: Bool // dont use this when porting this ui to your jailbreak (unless you respring in the same way)
@@ -32,6 +34,23 @@ struct ContentView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading) {
+                    VStack {
+                        NavigationLink(destination: CreditsView(), label: {
+                            HStack {
+                                Group {
+                                    Text("Credits")
+                                        .foregroundColor(.primary)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.secondary)
+                                }.padding(15)
+                            }
+                            .background(.regularMaterial)
+                        })
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    Divider()
+                        .padding(.vertical, 8)
                     Label("Jailbreak", systemImage: "terminal")
                         .padding(.leading, 17.5)
                         .font(.caption)
@@ -102,6 +121,25 @@ struct ContentView: View {
             }
         }
     }
+    
+    @ViewBuilder
+    var sheet: some View {
+        if #available(iOS 16.0, *) {
+            if #available(iOS 16.4, *) {
+                settings
+                    .presentationDetents([.medium, .large])
+                    .presentationBackground(.regularMaterial)
+            } else {
+                settings
+                    .presentationDetents([.medium, .large])
+                    .background(.regularMaterial)
+            }
+        } else {
+            settings
+                .background(.regularMaterial)
+                .backport.presentationDetents([.medium, .large])
+        }
+    }
 
     @ViewBuilder
     var body: some View {
@@ -118,14 +156,14 @@ struct ContentView: View {
                         .fill(.clear)
                         .background(.black.opacity(0.8))
                         .ignoresSafeArea(.all)
-                    VStack {
+                    VStack(spacing: 15) {
                         VStack(alignment: .leading) {
                             Text("Jelbrek") // apex?????
                                 .multilineTextAlignment(.leading)
                                 .font(.system(.largeTitle, design: .rounded).weight(.bold))
                             Text("Semi-jailbreak for iOS 15.0–17.0.0")
                         }
-                        .padding(.top, 30)
+                        .padding(.top, geo.size.height / 50)
                         .padding(.leading, 5)
                         .frame(maxWidth: .infinity, alignment: .topLeading)
                         Spacer()
@@ -237,13 +275,17 @@ struct ContentView: View {
                             }
                         }, label: {
                             if isRunning {
-                                Label("Jelbreking", systemImage: "lock.open")
-                                    .frame(width: geo.size.width / 2.5)
+                                HStack(spacing: 10) {
+                                    ProgressView()
+                                        .tint(Color(UIColor.secondaryLabel))
+                                    Text("Jelbreking")
+                                }
+                                .frame(width: geo.size.width / 2.5)
                             } else if finished {
                                 Label("Userspace Reboot", systemImage: "arrow.clockwise")
                                     .frame(width: geo.size.width / 1.75)
                             } else {
-                                Label("Jelbrek", systemImage: "lock")
+                                Label("Jelbrek", systemImage: "lock.open")
                                     .frame(width: geo.size.width / 1.75)
                             }
                         })
@@ -251,7 +293,7 @@ struct ContentView: View {
                         .buttonStyle(.bordered)
                         .tint(finished ? .green : color)
                         .controlSize(.large)
-                        .padding(.vertical, 4)
+                        .padding(.vertical, 0.1)
                         if !isRunning && !finished {
                             Text("This is a fake jailbreak.\nBy BomberFish. Released under the MIT Licence.")
                                 .multilineTextAlignment(.center)
@@ -274,20 +316,7 @@ struct ContentView: View {
                         blurScreen = false
                     }
                 }, content: {
-                    if #available(iOS 16.0, *) {
-                        if #available(iOS 16.4, *) {
-                            settings
-                                .presentationDetents([.medium])
-                                .presentationBackground(.regularMaterial)
-                        } else {
-                            settings
-                                .presentationDetents([.medium])
-                                .background(.regularMaterial)
-                        }
-                    } else {
-                        settings
-                            .background(.regularMaterial)
-                    }
+                    sheet
                 })
             }
             .tint(color)
@@ -325,6 +354,50 @@ struct ContentView: View {
                 progress((Double(i) / Double(steps.count - 1), steps[i]))
             }
         }
+    }
+}
+
+struct LinkCell: View {
+    var title: String
+    var detail: String
+    var link: String
+    var imageName: String?
+    var body: some View {
+        Link(destination: URL(string: link)!) {
+            HStack(alignment: .center) {
+                if let imageName {
+                    Image(imageName)
+                        .resizable()
+                        .frame(width: 32, height: 32)
+                        .clipShape(Circle())
+                } else {
+                    Image(systemName: "person.circle")
+                        .font(.system(size: 32))
+                }
+                VStack(alignment: .leading) {
+                    Text(title)
+                        .font(.headline)
+                    Text(detail)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+            }
+        }
+    }
+}
+
+struct CreditsView: View {
+    var body: some View {
+        List {
+            LinkCell(title: "[REDACTED]24", detail: "Main Developer", link: "apple-magnifier://")
+            LinkCell(title: "[REDACTED]", detail: "[REDACTED]", link: "apple-magnifier://")
+            LinkCell(title: "[REDACTED]334", detail: "[REDACTED]", link: "apple-magnifier://")
+            LinkCell(title: "[REDACTED]", detail: "[REDACTED]Kit", link: "apple-magnifier://")
+            LinkCell(title: "[REDACTED]", detail: "[REDACTED]", link: "apple-magnifier://")
+            LinkCell(title: "BomberFish", detail: "UI Design", link: "https://bomberfish.ca", imageName: "fish")
+            LinkCell(title: "Procursus Team", detail: "Bootstrap", link: "apple-magnifier://")
+        }
+        .navigationTitle("Credits")
     }
 }
 
