@@ -6,10 +6,10 @@ import FluidGradient
 import SwiftUI
 import SwiftUIBackports
 
-let fancyAnimation: Animation = .snappy(duration: 0.35, extraBounce: 0.085) // smoooooth operaaatooor
-
+let fancyAnimation: SwiftUI.Animation = .snappy(duration: 0.35, extraBounce: 0.085) // smoooooth operaaatooor
 
 struct ContentView: View {
+    var pipe = Pipe()
     @Binding var triggerRespring: Bool // dont use this when porting this ui to your jailbreak (unless you respring in the same way)
     @State var logItems: [String] = []
     @State var progress: Double = 0.0
@@ -26,19 +26,34 @@ struct ContentView: View {
     @AppStorage("unthreded") var untether = true
     @AppStorage("hide") var hide = false
     @AppStorage("loadd") var loadLaunch = false
+    @AppStorage("showStdout") var showStdout = true
     @State var reinstall = false
     @State var resetfs = false
+
+    public func openConsolePipe() {
+        setvbuf(stdout, nil, _IONBF, 0)
+        dup2(pipe.fileHandleForWriting.fileDescriptor,
+             STDOUT_FILENO)
+        // listening on the readabilityHandler
+        pipe.fileHandleForReading.readabilityHandler = { handle in
+            let data = handle.availableData
+            let str = String(data: data, encoding: .ascii) ?? "[*] <Non-ascii data of size\(data.count)>\n"
+            DispatchQueue.main.async {
+                logItems.append(str)
+            }
+        }
+    }
 
     @ViewBuilder
     var settings: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading) {
-                    VStack {
+                    VStack(alignment: .leading) {
                         NavigationLink(destination: CreditsView(), label: {
                             HStack {
                                 Group {
-                                    Text("Credits")
+                                    Label("Credits", systemImage: "heart")
                                         .foregroundColor(.primary)
                                     Spacer()
                                     Image(systemName: "chevron.right")
@@ -51,18 +66,20 @@ struct ContentView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 14))
                     Divider()
                         .padding(.vertical, 8)
-                    Label("Jailbreak", systemImage: "terminal")
+                    Label("Jailbreak", systemImage: "lock.open")
                         .padding(.leading, 17.5)
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    VStack {
-                        VStack {
-                            Toggle("Custom Reboot Logo", isOn: $customReboot)
-                            Toggle("Load Launch Daemons", isOn: $loadLaunch)
-                            Toggle("Verbose Boot", isOn: $verboseBoot)
-                            Toggle("Enable untether", isOn: $untether)
-                            Toggle("Hide environment", isOn: $hide)
+                    VStack(alignment: .leading) {
+                        VStack(alignment: .leading) {
+                            Toggle("Custom Reboot Logo", systemImage: "applelogo", isOn: $customReboot)
+                            Toggle("Load Launch Daemons", systemImage: "restart.circle", isOn: $loadLaunch)
+                            Toggle("Verbose Boot", systemImage: "ladybug", isOn: $verboseBoot)
+                            Toggle("Enable untether", systemImage: "slash.circle", isOn: $untether)
+                            Toggle("Hide environment", systemImage: "eye.slash", isOn: $hide)
+                            Toggle("Show stdout", systemImage: "terminal", isOn: $showStdout)
                         }
+                        .toggleStyle(SwitchToggleStyle())
                         .padding(15)
                         .background(.regularMaterial)
                     }
@@ -74,10 +91,10 @@ struct ContentView: View {
                         .padding(.leading, 17.5)
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    VStack {
-                        VStack {
+                    VStack(alignment: .leading) {
+                        VStack(alignment: .leading) {
                             HStack {
-                                Text("Accent Color")
+                                Label("Accent Color", systemImage: "paintpalette")
                                 Spacer()
                                 ColorPicker("Accent Color", selection: $color)
                                     .labelsHidden()
@@ -89,9 +106,7 @@ struct ContentView: View {
                                 .tint(color)
                                 .foregroundColor(color)
                             }
-                            HStack {
-                                Toggle("Swag Mode", isOn: $swag)
-                            }
+                            Toggle("Swag Mode", systemImage: "flame", isOn: $swag)
                         }
                         .padding(15)
 
@@ -121,7 +136,7 @@ struct ContentView: View {
             }
         }
     }
-    
+
     @ViewBuilder
     var sheet: some View {
         if #available(iOS 16.0, *) {
@@ -248,7 +263,7 @@ struct ContentView: View {
                             }
                         }
 
-                        Group {
+                        HStack {
                             if isRunning {
                                 ProgressView(value: progress)
                                     .tint(progress == 1.0 ? .green : color)
@@ -266,6 +281,11 @@ struct ContentView: View {
                                 withAnimation(fancyAnimation) {
                                     isRunning = true
                                 }
+                                if showStdout {
+                                    withAnimation(fancyAnimation) {
+                                        print("[i] Hello from stdout!")
+                                    }
+                                }
                                 funnyThing(true) { prog, log in
                                     withAnimation(fancyAnimation) {
                                         progress = prog
@@ -278,6 +298,7 @@ struct ContentView: View {
                                 HStack(spacing: 10) {
                                     ProgressView()
                                         .tint(Color(UIColor.secondaryLabel))
+                                        .controlSize(.regular)
                                     Text("Jelbreking")
                                 }
                                 .frame(width: geo.size.width / 2.5)
@@ -326,6 +347,9 @@ struct ContentView: View {
             accentColor = updateCardColorInAppStorage(color: new)
         }
         .onAppear {
+            if showStdout {
+                openConsolePipe()
+            }
             showingGradient = swag
             withAnimation(fancyAnimation) {
                 let rgbArray = accentColor.components(separatedBy: ",")
@@ -389,8 +413,8 @@ struct LinkCell: View {
 struct CreditsView: View {
     var body: some View {
         List {
-            LinkCell(title: "[REDACTED]24", detail: "Main Developer", link: "apple-magnifier://")
-            LinkCell(title: "[REDACTED]", detail: "[REDACTED]", link: "apple-magnifier://")
+            LinkCell(title: "[REDACTED]cg24", detail: "Main Developer", link: "apple-magnifier://")
+            LinkCell(title: "[REDACTED]", detail: "[REDACTED]d takeover method", link: "apple-magnifier://")
             LinkCell(title: "[REDACTED]334", detail: "[REDACTED]", link: "apple-magnifier://")
             LinkCell(title: "[REDACTED]", detail: "[REDACTED]Kit", link: "apple-magnifier://")
             LinkCell(title: "[REDACTED]", detail: "[REDACTED]", link: "apple-magnifier://")
